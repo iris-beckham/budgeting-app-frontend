@@ -14,14 +14,16 @@ const Transactions = () => {
             <h1>Transactions</h1>
             <ul>
                 {transactions.map((transaction) => {
-                    const { id, transaction_from, amount, date } = transaction;
+                    const { id, transaction_from, amount, date, pending } = transaction;
                     return (
                         <Link to={`/${id}`} >
                             <li key={id}>
                                 <p>From: {transaction_from}</p>
                                 <p>Amount: {amount}</p>
                                 <p>Date: {date}</p>
+                                <p>{pending ? "Pending" : "Posted"}</p>
                             </li>
+                            <hr />
                         </Link>
                     );
                 })}

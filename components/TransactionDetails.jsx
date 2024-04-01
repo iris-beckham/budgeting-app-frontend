@@ -19,18 +19,28 @@ const TransactionDetails = () => {
         fetch(`${API}/transactions/${id}`, { method: "DELETE" })
             .then(() => navigate('/'))
     }
-    const { transaction_from, amount, date, category } = transaction;
+    const { pending, transaction_from, amount, date, category, transaction_id, account, recurring, memo } = transaction;
 
     return (
         <div>
-            <p>
-                From: {transaction_from}
-            </p>
-            <p>
-                Amount: {amount}
-            </p>
-            <p>Date: {date}</p>
-            <p>Category: {category}</p>
+            <p>{pending ? "Pending" : "Posted"} {date}</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <th>{transaction_from}</th>
+                        <th>{amount}</th>
+                    </tr>
+                    <tr>
+                        <td>{transaction_id}</td>
+                        <td>{account}</td>
+                    </tr>
+                    <tr>
+                        <td>{category}</td>
+                        <td>{recurring ? "Automatic" : "One-time"}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Memo: {memo}</p>
             <button onClick={handleDelete}>Delete</button>
             <button>Edit</button>
         </div>
