@@ -42,7 +42,7 @@ const TransactionDetails = () => {
             </table>
             <p>Memo: {memo}</p>
             <button onClick={handleDelete}>Delete</button>
-            <button>Edit</button>
+            <Link to="/edit">Edit</Link>
         </div>
 
     )
