@@ -13,11 +13,14 @@ const Transactions = () => {
     const calculateTotal = () => {
         return transactions && transactions.reduce((sum, transaction) => sum + Number(transaction.amount), 0);
     }
+    const totalTextColor = () => {
+        return calculateTotal() > 1000 ? 'green' : calculateTotal() > 100 ? 'yellow' : 'red';
+    }
 
     return (
         <div>
             <h1>Transactions</h1>
-            <h2>Current Total: ${calculateTotal(transactions)}</h2>
+            <h2>Current Total: <span style={{ color: totalTextColor() }}>${calculateTotal()}</span></h2>
             <ul>
                 {transactions.map((transaction) => {
                     const currentTransaction = { ...transaction };
