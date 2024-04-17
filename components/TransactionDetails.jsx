@@ -7,7 +7,7 @@ const API = import.meta.env.VITE_BASE_API_URL;
 const TransactionDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [transaction, setTransaction] = useState([]);
+    const [transaction, setTransaction] = useState({});
     useEffect(() => {
         fetch(`${API}/transactions/${id}`)
             .then((res) => res.json())
@@ -42,7 +42,7 @@ const TransactionDetails = () => {
             </table>
             <p>Memo: {memo}</p>
             <button onClick={handleDelete}>Delete</button>
-            <Link to="/edit">Edit</Link>
+            <Link to="/edit" state={{ transaction }}>Edit</Link>
         </div>
 
     )
