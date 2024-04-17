@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { humanReadableDate } from '../helpers/humanReadableDate.js';
 const API = import.meta.env.VITE_BASE_API_URL;
 
 
@@ -23,7 +24,7 @@ const TransactionDetails = () => {
 
     return (
         <div>
-            <p>{pending ? "Pending" : "Posted"} {date}</p>
+            <p>{pending ? "Pending" : "Posted"} {humanReadableDate(date)}</p>
             <table>
                 <tbody>
                     <tr>

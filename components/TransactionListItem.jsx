@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { humanReadableDate } from '../helpers/humanReadableDate.js';
 
 const TransactionListItem = (transaction) => {
     const { id, transaction_from, amount, date, pending } = transaction.transaction;
@@ -7,7 +8,7 @@ const TransactionListItem = (transaction) => {
             <li >
                 <p>From: {transaction_from}</p>
                 <p>Amount: {amount}</p>
-                <p>Date: {date}</p>
+                <p>Date: {humanReadableDate(date)}</p>
                 <p>{pending ? "Pending" : "Posted"}</p>
             </li>
             <hr />
