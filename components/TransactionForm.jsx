@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const API = import.meta.env.VITE_BASE_API_URL;
 
 const TransactionForm = () => {
+    let transaction;
+    if (useLocation().state) {
+        transaction = useLocation().state.transaction;
+    }
     const navigate = useNavigate();
-    const [newTransaction, setNewTransaction] = useState({
+    const [newTransaction, setNewTransaction] = useState(transaction || {
         amount: "",
         date: "",
         transaction_from: "",
@@ -99,7 +103,7 @@ const TransactionForm = () => {
                     id="category"
                     onChange={handleTextChange}>
                     {(categories).map((category) => {
-                        return <option value={category}>{category}</option>
+                        return <option key={category} value={category}>{category}</option>
                     })}
                 </datalist>
             </label>
@@ -130,7 +134,7 @@ const TransactionForm = () => {
                     id="account"
                     onChange={handleTextChange}>
                     {(accounts).map((account) => {
-                        return <option value={account}>{account}</option>
+                        return <option key={account} value={account}>{account}</option>
                     })}
                 </datalist>
             </label>
