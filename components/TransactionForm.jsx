@@ -8,6 +8,7 @@ const TransactionForm = () => {
     if (useLocation().state) {
         edit = true;
         transaction = useLocation().state.transaction;
+        transaction.date = transaction.date.split(":")[0].split("T")[0];
     }
     const navigate = useNavigate();
     const [newTransaction, setNewTransaction] = useState(transaction || {
@@ -115,7 +116,7 @@ const TransactionForm = () => {
             </label>
             <label htmlFor="category">
                 Category
-                <input type="text" list="category" />
+                <input type="text" list="category" defaultValue={category} />
                 <datalist
                     value={category}
                     id="category"
@@ -139,14 +140,15 @@ const TransactionForm = () => {
                 <input
                     type="checkbox"
                     id='recurring'
-                    value={recurring}
+                    checked={recurring}
                     onChange={handleCheckboxChange} />
             </label>
             <label htmlFor="account">
                 Account
                 <input
                     type="text"
-                    list="account" />
+                    list="account"
+                    defaultValue={account} />
                 <datalist
                     value={account}
                     id="account"
@@ -163,7 +165,6 @@ const TransactionForm = () => {
                     value={memo}
                     onChange={handleTextChange}></textarea>
             </label>
-
             <br />
             <input type="submit" />
 
