@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import TransactionListItem from './TransactionListItem';
 
 const API = import.meta.env.VITE_BASE_API_URL;
 const Transactions = () => {
@@ -9,27 +9,21 @@ const Transactions = () => {
             .then((res) => res.json())
             .then((data) => setTransactions(data))
     }, [])
+
+    const calculateTotal = () => {
+        return transactions && transactions.reduce((sum, transaction) => sum + Number(transaction.amount), 0);
+    }
+
     return (
         <div>
             <h1>Transactions</h1>
+            <h2>Current Total: ${calculateTotal(transactions)}</h2>
             <ul>
                 {transactions.map((transaction) => {
-                    const { id, transaction_from, amount, date, pending } = transaction;
-                    return (
-                        <Link to={`/${id}`} >
-                            <li key={id}>
-                                <p>From: {transaction_from}</p>
-                                <p>Amount: {amount}</p>
-                                <p>Date: {date}</p>
-                                <p>{pending ? "Pending" : "Posted"}</p>
-                            </li>
-                            <hr />
-                        </Link>
-                    );
+                    const currentTransaction = { ...transaction };
+                    return <TransactionListItem key={transaction.id} transaction={transaction} />;
                 })}
             </ul>
-
-
         </div>
     )
 }
