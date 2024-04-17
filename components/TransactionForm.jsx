@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 const API = import.meta.env.VITE_BASE_API_URL;
 
 const TransactionForm = () => {
     const navigate = useNavigate();
-
     const [newTransaction, setNewTransaction] = useState({
         amount: "",
         date: "",
@@ -15,6 +14,20 @@ const TransactionForm = () => {
         account: "",
         recurring: false
     });
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        fetch(`${API}/transactions`)
+            .then((res) => res.json())
+            .then((data) => {
+                setCategories(data)
+                let allCategories = {};
+                data.forEach(transaction => {
+                    allCategories[transaction.category] = '';
+                })
+                setCategories(Object.keys(allCategories).filter(category => /\S/.test(category)));
+            })
+    }, [])
+
 
     const addTransaction = () => {
         fetch(`${API}/transactions`, {
@@ -76,15 +89,14 @@ const TransactionForm = () => {
             </label>
             <label htmlFor="category">
                 Category
-                {/* map through an array of all the categories? */}
                 <input type="text" list="category" />
                 <datalist
                     value={category}
                     id="category"
                     onChange={handleTextChange}>
-                    {/* {(categories).map((category) => {
+                    {(categories).map((category) => {
                         return <option value={category}>{category}</option>
-                    })} */}
+                    })}
                 </datalist>
             </label>
             <br />
