@@ -4,7 +4,9 @@ const API = import.meta.env.VITE_BASE_API_URL;
 
 const TransactionForm = () => {
     let transaction;
+    let edit = false;
     if (useLocation().state) {
+        edit = true;
         transaction = useLocation().state.transaction;
     }
     const navigate = useNavigate();
@@ -50,9 +52,25 @@ const TransactionForm = () => {
             .catch((error) => console.error("catch", error));
     };
 
+    const editTransaction = () => {
+        const options = {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newTransaction),
+        };
+        fetch(`${API}/transactions/${newTransaction.id}`, options)
+            .then((res) => res.json())
+            .then((data) => { navigate(`/${data.id}`) })
+            .catch((error) => console.error("catch", error));
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        addTransaction();
+        if (edit) {
+            editTransaction();
+        } else {
+            addTransaction();
+        }
     };
 
     const handleTextChange = (event) => {
