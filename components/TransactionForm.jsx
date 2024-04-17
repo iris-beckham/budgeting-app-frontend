@@ -15,16 +15,20 @@ const TransactionForm = () => {
         recurring: false
     });
     const [categories, setCategories] = useState([]);
+    const [accounts, setAccounts] = useState([]);
     useEffect(() => {
         fetch(`${API}/transactions`)
             .then((res) => res.json())
             .then((data) => {
                 setCategories(data)
                 let allCategories = {};
+                let allAccounts = {};
                 data.forEach(transaction => {
                     allCategories[transaction.category] = '';
+                    allAccounts[transaction.account] = '';
                 })
                 setCategories(Object.keys(allCategories).filter(category => /\S/.test(category)));
+                setAccounts(Object.keys(allAccounts).filter(account => /\S/.test(account)));
             })
     }, [])
 
@@ -118,12 +122,17 @@ const TransactionForm = () => {
             </label>
             <label htmlFor="account">
                 Account
-                {/* could also be an array? */}
                 <input
                     type="text"
-                    id="account"
+                    list="account" />
+                <datalist
                     value={account}
-                    onChange={handleTextChange} />
+                    id="account"
+                    onChange={handleTextChange}>
+                    {(accounts).map((account) => {
+                        return <option value={account}>{account}</option>
+                    })}
+                </datalist>
             </label>
             <label htmlFor="memo">
                 Memo
